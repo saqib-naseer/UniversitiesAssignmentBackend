@@ -11,10 +11,10 @@ using UniversityAssignment.Infrastructure.Abstract;
 
 namespace UniversityAssignment.Application.University.Queries
 {
-    public class GetRestuarantByIdQueryHandler(IUniversityRepository restaurantsRepository,
-    IMapper mapper) : IRequestHandler<GetRestaurantByIdQuery, UniversityDTO>
+    public class GetUniversityByIdQueryHandler(IUniversityRepository restaurantsRepository,
+    IMapper mapper) : IRequestHandler<GetUniversityByIdQuery, UniversityDTO>
     {
-        public async Task<UniversityDTO> Handle(GetRestaurantByIdQuery request, CancellationToken cancellationToken)
+        public async Task<UniversityDTO> Handle(GetUniversityByIdQuery request, CancellationToken cancellationToken)
         {
             var restaurant = await restaurantsRepository.GetByIdAsync(request.Id);
 

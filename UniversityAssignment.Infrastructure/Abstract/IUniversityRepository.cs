@@ -22,5 +22,6 @@ namespace UniversityAssignment.Infrastructure.Abstract
         Task<LK_Country?> GetCountryByIdAsync(string countryId);
         IEnumerable<Domains> GetUniversityDomains(int universityId);
         IEnumerable<UniversityWebPages> GetUniversityWebPages(int universityId);
+        List<University?> GetUniversitiesByCountry(string country);
     }
 }

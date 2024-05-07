@@ -8,8 +8,8 @@ using UniversityAssignment.Application.University.DTO;
 
 namespace UniversityAssignment.Application.University.Queries
 {
-    public class GetRestaurantByIdQuery(int id) : IRequest<UniversityDTO>
+    public class GetUniversitiesByCountry(string countryId) : IRequest<List<UniversityDTO?>>
     {
-        public int Id { get; } = id;
+        public string CountryId { get; } = countryId;
     }
 }

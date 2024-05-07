@@ -51,6 +51,12 @@ namespace UniversityAssignment.Infrastructure
 
             return university;
         }
+        public List<University?> GetUniversitiesByCountry(string country)
+        {
+            var universitiesByCountry = dBContext.University.Where(x => x.Country == country).ToList();
+
+            return universitiesByCountry;
+        }
         public IEnumerable<UniversityWebPages> GetUniversityWebPages(int universityId)
         {
             var universityWebPages = dBContext.WebPages

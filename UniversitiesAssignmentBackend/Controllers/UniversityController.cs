@@ -11,6 +11,8 @@ using UniversityAssignment.Infrastructure.Abstract;
 
 namespace UniversitiesAssignmentBackend.Controllers
 {
+    [ApiController]
+    [Route("api")]
     public class UniversityController(IMediator mediator) : ControllerBase
     {
 
@@ -23,11 +25,19 @@ namespace UniversitiesAssignmentBackend.Controllers
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet("getUniversityByCountry/{countryCode}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<UniversityDTO?>> GetUniversityByCountry([FromRoute] string countryCode)
+        {
+            var restaurant = await mediator.Send(new GetUniversitiesByCountry(countryCode));
+            return Ok(restaurant);
+        }
+
+        [HttpGet("getUniversityById/{id}")]
         [AllowAnonymous]
         public async Task<ActionResult<UniversityDTO?>> GetById([FromRoute] int id)
         {
-            var restaurant = await mediator.Send(new GetRestaurantByIdQuery(id));
+            var restaurant = await mediator.Send(new GetUniversityByIdQuery(id));
             return Ok(restaurant);
         }
 
