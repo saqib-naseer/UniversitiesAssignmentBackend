@@ -16,7 +16,7 @@ namespace UniversitiesAssignmentBackend.Controllers
 
         [HttpPost("createUniversity")]
         [AllowAnonymous]
-        public async Task<IActionResult> CreateUniversity(CreateUniversityCommand command)
+        public async Task<IActionResult> CreateUniversity([FromBody] CreateUniversityCommand command)
         {
             int id = await mediator.Send(command);
             return CreatedAtAction(nameof(GetById), new { id }, null);
@@ -24,6 +24,7 @@ namespace UniversitiesAssignmentBackend.Controllers
 
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<UniversityDTO?>> GetById([FromRoute] int id)
         {
             var restaurant = await mediator.Send(new GetRestaurantByIdQuery(id));
@@ -33,7 +34,8 @@ namespace UniversitiesAssignmentBackend.Controllers
         [HttpPatch("updateUniversity/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateUniversity([FromRoute] int id, UpdateUniversityCommand command)
+        [AllowAnonymous]
+        public async Task<IActionResult> UpdateUniversity([FromRoute] int id, [FromBody] UpdateUniversityCommand command)
         {
             command.Id = id;
             await mediator.Send(command);

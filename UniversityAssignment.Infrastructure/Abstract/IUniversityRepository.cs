@@ -15,7 +15,12 @@ namespace UniversityAssignment.Infrastructure.Abstract
         Task<int> CreateWebPages(UniversityWebPages entity);
         Task<int> CreateDomains(Domains entity);
 
+        int DeleteWebPages(IEnumerable<UniversityWebPages> webPages);
+        int DeleteDomains(IEnumerable<Domains> domains);
+
         Task<University?> GetByIdAsync(int id);
         Task<LK_Country?> GetCountryByIdAsync(string countryId);
+        IEnumerable<Domains> GetUniversityDomains(int universityId);
+        IEnumerable<UniversityWebPages> GetUniversityWebPages(int universityId);
     }
 }

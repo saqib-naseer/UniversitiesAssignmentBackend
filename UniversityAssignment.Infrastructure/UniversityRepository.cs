@@ -32,6 +32,17 @@ namespace UniversityAssignment.Infrastructure
             await dBContext.SaveChangesAsync();
             return entity.Id;
         }
+        public int DeleteDomains(IEnumerable<Domains> domains)
+        {
+            dBContext.Domains.RemoveRange(domains);
+            return dBContext.SaveChanges();
+        }
+
+        public int DeleteWebPages(IEnumerable<UniversityWebPages> webPages)
+        {
+            dBContext.WebPages.RemoveRange(webPages);
+            return dBContext.SaveChanges();
+        }
 
         public async Task<University?> GetByIdAsync(int id)
         {
@@ -40,6 +51,22 @@ namespace UniversityAssignment.Infrastructure
 
             return university;
         }
+        public IEnumerable<UniversityWebPages> GetUniversityWebPages(int universityId)
+        {
+            var universityWebPages = dBContext.WebPages
+                .Where(x => x.UniversityId == universityId).AsEnumerable();
+
+            return universityWebPages;
+        }
+
+        public IEnumerable<Domains> GetUniversityDomains(int universityId)
+        {
+            var domains = dBContext.Domains
+                .Where(x => x.UniversityId == universityId).AsEnumerable();
+
+            return domains;
+        }
+
         public async Task<LK_Country?> GetCountryByIdAsync(string countryId)
         {
             var university = await dBContext.LK_Country
