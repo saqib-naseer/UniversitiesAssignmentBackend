@@ -1,6 +1,8 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
+using UniversityAssignment.Infrastructure.Abstract;
+using UniversityAssignment.Infrastructure;
 
 namespace UniversityAssignment.Application.Extensions;
 
@@ -16,6 +18,7 @@ public static class ServiceCollectionExtensions
         services.AddValidatorsFromAssembly(applicationAssembly)
             .AddFluentValidationAutoValidation();
 
+        services.AddScoped<IUniversityRepository, UniversityRepository>();
 
         services.AddHttpContextAccessor();
     }

@@ -14,6 +14,7 @@ namespace UniversityAssignment.Infrastructure.Abstract
         Task<int> CreateUniversity(University entity);
         Task<int> CreateWebPages(UniversityWebPages entity);
         Task<int> CreateDomains(Domains entity);
+        bool CreateUniversityList(University entity);
 
         int DeleteWebPages(IEnumerable<UniversityWebPages> webPages);
         int DeleteDomains(IEnumerable<Domains> domains);
@@ -23,5 +24,7 @@ namespace UniversityAssignment.Infrastructure.Abstract
         IEnumerable<Domains> GetUniversityDomains(int universityId);
         IEnumerable<UniversityWebPages> GetUniversityWebPages(int universityId);
         List<University?> GetUniversitiesByCountry(string country);
+
+        bool UpdateUniversity(int universityId, UpdateUniversityModel model);
     }
 }

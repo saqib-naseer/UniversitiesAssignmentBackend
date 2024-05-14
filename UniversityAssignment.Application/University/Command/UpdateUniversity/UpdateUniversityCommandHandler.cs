@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UniversityAssignment.Domain.Entities;
+using UniversityAssignment.Infrastructure;
 using UniversityAssignment.Infrastructure.Abstract;
 
 namespace UniversityAssignment.Application.University.Command.UpdateUniversity
@@ -16,6 +17,7 @@ namespace UniversityAssignment.Application.University.Command.UpdateUniversity
     {
         public async Task Handle(UpdateUniversityCommand request, CancellationToken cancellationToken)
         {
+
             var record = await universityRepository.GetByIdAsync(request.Id.GetValueOrDefault());
             if (record is null)
             {
@@ -24,6 +26,7 @@ namespace UniversityAssignment.Application.University.Command.UpdateUniversity
 
             if (record != null)
             {
+
                 mapper.Map(request, record);
 
                 await universityRepository.SaveChanges();

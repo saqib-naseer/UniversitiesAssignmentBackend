@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,46 @@ namespace UniversityAssignment.Infrastructure
     {
         public Task SaveChanges() => dBContext.SaveChangesAsync();
 
+
+        public bool UpdateUniversity(int universityId, UpdateUniversityModel model)
+        {
+            var result = dBContext.University.Where(x => x.Id == universityId).FirstOrDefault();
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(model.Name))
+                {
+                    result.Name = model.Name;
+                }
+                if (!string.IsNullOrEmpty(model.StateProvince))
+                {
+                    result.StateProvince = model.StateProvince;
+                }
+                if (!string.IsNullOrEmpty(model.AlphaTwoCode))
+                {
+                    result.AlphaTwoCode = model.AlphaTwoCode;
+                }
+                if (!string.IsNullOrEmpty(model.Country))
+                {
+                    result.Country = model.Country;
+                }
+                dBContext.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool CreateUniversityList(University entity)
+        {
+            dBContext.University.Add(entity);
+            var result = dBContext.SaveChanges();
+            if (result > 0)
+            {
+                return true;
+
+            }
+            return false;
+        }
         public async Task<int> CreateUniversity(University entity)
         {
             dBContext.University.Add(entity);

@@ -1,27 +1,39 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
+using UniversitiesAssignmentBackend.App_Start;
 using UniversityAssignment.Application.University.Command.CreateUniversity;
 using UniversityAssignment.Application.University.Command.UpdateUniversity;
 using UniversityAssignment.Application.University.DTO;
 using UniversityAssignment.Application.University.Queries;
+using UniversityAssignment.Domain.Entities;
+using UniversityAssignment.Infrastructure;
 using UniversityAssignment.Infrastructure.Abstract;
 
 namespace UniversitiesAssignmentBackend.Controllers
 {
     [ApiController]
     [Route("api")]
-    public class UniversityController(IMediator mediator) : ControllerBase
+    public class UniversityController(IMediator mediator, IUniversityRepository universityRepository, IMapper mapper) : ControllerBase
     {
+        private readonly IUniversityRepository universityRepository = universityRepository;
+        private readonly IMapper mapper = mapper;
 
         [HttpPost("createUniversity")]
         [AllowAnonymous]
-        public async Task<IActionResult> CreateUniversity([FromBody] CreateUniversityCommand command)
+        public async Task<IActionResult> CreateUniversity([FromBody] List<CreateUniversityCommand> command)
         {
-            int id = await mediator.Send(command);
-            return CreatedAtAction(nameof(GetById), new { id }, null);
+            foreach (var model in command)
+            {
+                var universityModel = mapper.Map<University>(model);
+                universityModel.Id = 0;
+                var result = await universityRepository.CreateUniversity(universityModel);
+            }
+
+            return Ok(true);
         }
 
 
@@ -45,12 +57,15 @@ namespace UniversitiesAssignmentBackend.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [AllowAnonymous]
-        public async Task<IActionResult> UpdateUniversity([FromRoute] int id, [FromBody] UpdateUniversityCommand command)
+        public async Task<IActionResult> UpdateUniversity([FromRoute] int id, [FromBody] UpdateUniversityModel command)
         {
-            command.Id = id;
-            await mediator.Send(command);
 
-            return NoContent();
+            var result = universityRepository.UpdateUniversity(id, command);
+            return Ok(result);
+            //command.Id = id;
+            //await mediator.Send(command);
+
+            //return NoContent();
         }
     }
 
